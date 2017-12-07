@@ -169,7 +169,7 @@ sg33
 g62
 sbsa(dp64
 g14
-I00
+I01
 sg15
 (lp65
 I280
@@ -180,7 +180,7 @@ Tiddler
 p66
 (dp67
 g21
-V// This script is used to monkey patch the Twine runtime into understanding the\u000a// concept of global variables. It exports no additional concepts from the game\u000a// world.\u000a\u000a(() => {\u000a  // Record some information in the global scope about where to find the\u000a  // "global" state object.\u000a  let glbl = window;\u000a  while (glbl.opener) { glbl = glbl.opener; }\u000a  window.top_window = glbl;\u000a\u000a  // Stash a reference to this window in the `remote` object.\u000a  window.remote = window.top_window.remote || {};\u000a  window.remote[window.name || "main"] = window;\u000a\u000a  // Match the behaviour of the built-in Wikifier variable matcher, except look\u000a  // for a g_ at the beginning of the variable name.\u000a  let global_var = "\u005c\u005c$g_((?:" +\u000a      Wikifier.textPrimitives.anyLetter.replace("\u005c\u005c-", "") +\u000a      ")*)" + Wikifier.textPrimitives.unquoted;\u000a\u000a  // We're going to need to monkey-patch the Wikifier.parse method, which\u000a  // handles transforming variables (like "$foo") into actual JS code.\u000a  let old_parser = Wikifier.parse;\u000a  Wikifier.parse = function(input) {\u000a    // This part is based on the source code for Wikifier.parse\u000a    // https://github.com/tweecode/twine/blob/f0e6caf4b3857cccdb4043313997dda36f55dd06/targets/engine.js#L1489-L1521\u000a\u000a    let output = input;\u000a\u000a    // Extract all variables & initialize them to 0 if they're undefined\u000a    let init_re = new RegExp(global_var, "gi");\u000a    let found = [];\u000a    let m;\u000a    while ((m = init_re.exec(input))) {\u000a      if (found.indexOf(m[0]) === -1) {\u000a        output = m[0] + " == null && (" + m[0] + " = 0);" + output;\u000a        found.push(m[0]);\u000a      }\u000a    }\u000a\u000a    // Rewrite $var into valid JS code\u000a    let pat = "top_window.state.history[0].variables.$1";\u000a    output = output.replace(new RegExp(global_var, "gi"), pat);\u000a\u000a    console.log(output);\u000a\u000a    // And now we can call the version we're patching\u000a    return old_parser.call(this, output);\u000a  };\u000a})();\u000a
+V// This script is used to monkey patch the Twine runtime into understanding the\u000a// concept of global variables. It exports no additional concepts from the game\u000a// world.\u000a\u000a(() => {\u000a  // Record some information in the global scope about where to find the\u000a  // "global" state object.\u000a  let glbl = window;\u000a  while (glbl.opener) { glbl = glbl.opener; }\u000a  window.top_window = glbl;\u000a\u000a  // Stash a reference to this window in the `remote` object.\u000a  window.remote = window.top_window.remote || {};\u000a  window.remote[window.name || "main"] = window;\u000a\u000a  // Match the behaviour of the built-in Wikifier variable matcher, except look\u000a  // for a g_ at the beginning of the variable name.\u000a  let global_var = "\u005c\u005c$g_((?:" +\u000a      Wikifier.textPrimitives.anyLetter.replace("\u005c\u005c-", "") +\u000a      ")*)" + Wikifier.textPrimitives.unquoted;\u000a\u000a  // We're going to need to monkey-patch the Wikifier.parse method, which\u000a  // handles transforming variables (like "$foo") into actual JS code.\u000a  let old_parser = Wikifier.parse;\u000a  Wikifier.parse = function(input) {\u000a    // This part is based on the source code for Wikifier.parse\u000a    // https://github.com/tweecode/twine/blob/f0e6caf4b3857cccdb4043313997dda36f55dd06/targets/engine.js#L1489-L1521\u000a\u000a    let output = input;\u000a\u000a    // Extract all variables & initialize them to 0 if they're undefined\u000a    let init_re = new RegExp(global_var, "gi");\u000a    let found = [];\u000a    let m;\u000a    while ((m = init_re.exec(input))) {\u000a      if (found.indexOf(m[0]) === -1) {\u000a        output = m[0] + " == null && (" + m[0] + " = 0);" + output;\u000a        found.push(m[0]);\u000a      }\u000a    }\u000a\u000a    // Rewrite $var into valid JS code\u000a    let pat = "top_window.state.history[0].variables.$1";\u000a    output = output.replace(new RegExp(global_var, "gi"), pat);\u000a\u000a    // And now we can call the version we're patching\u000a    return old_parser.call(this, output);\u000a  };\u000a})();\u000a
 p68
 sg23
 Vaaaaaa_InitGlobalVarState
@@ -190,9 +190,9 @@ g26
 ((I2017
 I12
 I7
-I1
-I36
-I15
+I12
+I31
+I58
 I3
 I341
 I0
@@ -274,8 +274,8 @@ g14
 I00
 sg15
 (lp96
-F146.0
-aF150.0
+F145.0
+aF153.0
 asg17
 (itiddlywiki
 Tiddler

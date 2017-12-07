@@ -43,8 +43,6 @@
     let pat = "top_window.state.history[0].variables.$1";
     output = output.replace(new RegExp(global_var, "gi"), pat);
 
-    console.log(output);
-
     // And now we can call the version we're patching
     return old_parser.call(this, output);
   };
