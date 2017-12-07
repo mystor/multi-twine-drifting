@@ -1,0 +1,328 @@
+(dp0
+S'buildDestination'
+p1
+VZ:\u005chome\u005cmlayzell\u005cCode\u005celectron-game\u005celectron-quick-start\u005cgame2.html
+p2
+sS'saveDestination'
+p3
+VZ:\u005chome\u005cmlayzell\u005cCode\u005celectron-game\u005celectron-quick-start\u005cgame2.tws
+p4
+sS'metadata'
+p5
+(dp6
+sS'target'
+p7
+S'sugarcane'
+p8
+sS'storyPanel'
+p9
+(dp10
+S'widgets'
+p11
+(lp12
+(dp13
+S'selected'
+p14
+I00
+sS'pos'
+p15
+(lp16
+I10
+aI10
+asS'passage'
+p17
+(itiddlywiki
+Tiddler
+p18
+(dp20
+S'text'
+p21
+VThis is game 2\u000a[[Read Global State]]
+p22
+sS'title'
+p23
+VStart
+p24
+sS'modified'
+p25
+ctime
+struct_time
+p26
+((I2017
+I12
+I7
+I1
+I3
+I52
+I3
+I341
+I0
+tp27
+(dp28
+tp29
+Rp30
+sS'tags'
+p31
+(lp32
+sS'created'
+p33
+g26
+((I2017
+I12
+I6
+I23
+I11
+I0
+I2
+I340
+I0
+tp34
+(dp35
+tp36
+Rp37
+sbsa(dp38
+g14
+I00
+sg15
+(lp39
+I10
+aI150
+asg17
+(itiddlywiki
+Tiddler
+p40
+(dp41
+g21
+VGame 2
+p42
+sg23
+VStoryTitle
+p43
+sg25
+g26
+((I2017
+I12
+I7
+I1
+I40
+I51
+I3
+I341
+I0
+tp44
+(dp45
+tp46
+Rp47
+sg31
+(lp48
+sg33
+g26
+((I2017
+I12
+I6
+I23
+I11
+I0
+I2
+I340
+I0
+tp49
+(dp50
+tp51
+Rp52
+sbsa(dp53
+g14
+I00
+sg15
+(lp54
+I10
+aI290
+asg17
+(itiddlywiki
+Tiddler
+p55
+(dp56
+g21
+S'Anonymous'
+p57
+sg23
+S'StoryAuthor'
+p58
+sg25
+g26
+((I2017
+I12
+I6
+I23
+I11
+I0
+I2
+I340
+I0
+tp59
+(dp60
+tp61
+Rp62
+sg31
+(lp63
+sg33
+g62
+sbsa(dp64
+g14
+I00
+sg15
+(lp65
+I280
+aI13
+asg17
+(itiddlywiki
+Tiddler
+p66
+(dp67
+g21
+V// This script is used to monkey patch the Twine runtime into understanding the\u000a// concept of global variables. It exports no additional concepts from the game\u000a// world.\u000a\u000a(() => {\u000a  // Record some information in the global scope about where to find the\u000a  // "global" state object.\u000a  let glbl = window;\u000a  while (glbl.opener) { glbl = glbl.opener; }\u000a  window.top_window = glbl;\u000a\u000a  // Stash a reference to this window in the `remote` object.\u000a  window.remote = window.top_window.remote || {};\u000a  window.remote[window.name || "main"] = window;\u000a\u000a  // Match the behaviour of the built-in Wikifier variable matcher, except look\u000a  // for a g_ at the beginning of the variable name.\u000a  let global_var = "\u005c\u005c$g_((?:" +\u000a      Wikifier.textPrimitives.anyLetter.replace("\u005c\u005c-", "") +\u000a      ")*)" + Wikifier.textPrimitives.unquoted;\u000a\u000a  // We're going to need to monkey-patch the Wikifier.parse method, which\u000a  // handles transforming variables (like "$foo") into actual JS code.\u000a  let old_parser = Wikifier.parse;\u000a  Wikifier.parse = function(input) {\u000a    // This part is based on the source code for Wikifier.parse\u000a    // https://github.com/tweecode/twine/blob/f0e6caf4b3857cccdb4043313997dda36f55dd06/targets/engine.js#L1489-L1521\u000a\u000a    let output = input;\u000a\u000a    // Extract all variables & initialize them to 0 if they're undefined\u000a    let init_re = new RegExp(global_var, "gi");\u000a    let found = [];\u000a    let m;\u000a    while ((m = init_re.exec(input))) {\u000a      if (found.indexOf(m[0]) === -1) {\u000a        output = m[0] + " == null && (" + m[0] + " = 0);" + output;\u000a        found.push(m[0]);\u000a      }\u000a    }\u000a\u000a    // Rewrite $var into valid JS code\u000a    let pat = "top_window.state.history[0].variables.$1";\u000a    output = output.replace(new RegExp(global_var, "gi"), pat);\u000a\u000a    console.log(output);\u000a\u000a    // And now we can call the version we're patching\u000a    return old_parser.call(this, output);\u000a  };\u000a})();\u000a
+p68
+sg23
+Vaaaaaa_InitGlobalVarState
+p69
+sg25
+g26
+((I2017
+I12
+I7
+I1
+I36
+I15
+I3
+I341
+I0
+tp70
+(dp71
+tp72
+Rp73
+sg31
+(lp74
+Vscript
+p75
+asg33
+g26
+((I2017
+I12
+I6
+I23
+I11
+I19
+I2
+I340
+I0
+tp76
+(dp77
+tp78
+Rp79
+sbsa(dp80
+g14
+I00
+sg15
+(lp81
+F145.0
+aF12.0
+asg17
+(itiddlywiki
+Tiddler
+p82
+(dp83
+g21
+VReading $g_foo gets me <<print $g_foo>>.\u000a[[Start]]
+p84
+sg23
+VRead Global State
+p85
+sg25
+g26
+((I2017
+I12
+I7
+I1
+I3
+I56
+I3
+I341
+I0
+tp86
+(dp87
+tp88
+Rp89
+sg31
+(lp90
+sg33
+g26
+((I2017
+I12
+I6
+I23
+I21
+I36
+I2
+I340
+I0
+tp91
+(dp92
+tp93
+Rp94
+sbsa(dp95
+g14
+I00
+sg15
+(lp96
+F146.0
+aF150.0
+asg17
+(itiddlywiki
+Tiddler
+p97
+(dp98
+g21
+VWOOOO How did you get here?\u000a[[Start]]
+p99
+sg23
+VHidden Passage
+p100
+sg25
+g26
+((I2017
+I12
+I7
+I1
+I33
+I55
+I3
+I341
+I0
+tp101
+(dp102
+tp103
+Rp104
+sg31
+(lp105
+sg33
+g26
+((I2017
+I12
+I7
+I1
+I33
+I41
+I3
+I341
+I0
+tp106
+(dp107
+tp108
+Rp109
+sbsasS'scale'
+p110
+I1
+sS'snapping'
+p111
+I00
+ss.
