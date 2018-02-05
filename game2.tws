@@ -51,9 +51,9 @@ p26
 ((I2017
 I12
 I7
-I1
-I3
-I52
+I17
+I7
+I15
 I3
 I341
 I0
@@ -64,8 +64,10 @@ Rp30
 sS'tags'
 p31
 (lp32
-sS'created'
+Vmytemplate
 p33
+asS'created'
+p34
 g26
 ((I2017
 I12
@@ -76,28 +78,28 @@ I0
 I2
 I340
 I0
-tp34
-(dp35
-tp36
-Rp37
-sbsa(dp38
+tp35
+(dp36
+tp37
+Rp38
+sbsa(dp39
 g14
 I00
 sg15
-(lp39
+(lp40
 I10
 aI150
 asg17
 (itiddlywiki
 Tiddler
-p40
-(dp41
+p41
+(dp42
 g21
 VGame 2
-p42
+p43
 sg23
 VStoryTitle
-p43
+p44
 sg25
 g26
 ((I2017
@@ -109,13 +111,13 @@ I51
 I3
 I341
 I0
-tp44
-(dp45
-tp46
-Rp47
+tp45
+(dp46
+tp47
+Rp48
 sg31
-(lp48
-sg33
+(lp49
+sg34
 g26
 ((I2017
 I12
@@ -126,28 +128,28 @@ I0
 I2
 I340
 I0
-tp49
-(dp50
-tp51
-Rp52
-sbsa(dp53
+tp50
+(dp51
+tp52
+Rp53
+sbsa(dp54
 g14
 I00
 sg15
-(lp54
+(lp55
 I10
 aI290
 asg17
 (itiddlywiki
 Tiddler
-p55
-(dp56
+p56
+(dp57
 g21
 S'Anonymous'
-p57
+p58
 sg23
 S'StoryAuthor'
-p58
+p59
 sg25
 g26
 ((I2017
@@ -159,32 +161,32 @@ I0
 I2
 I340
 I0
-tp59
-(dp60
-tp61
-Rp62
+tp60
+(dp61
+tp62
+Rp63
 sg31
-(lp63
-sg33
-g62
-sbsa(dp64
+(lp64
+sg34
+g63
+sbsa(dp65
 g14
-I01
+I00
 sg15
-(lp65
+(lp66
 I280
 aI13
 asg17
 (itiddlywiki
 Tiddler
-p66
-(dp67
+p67
+(dp68
 g21
 V// This script is used to monkey patch the Twine runtime into understanding the\u000a// concept of global variables. It exports no additional concepts from the game\u000a// world.\u000a\u000a(() => {\u000a  // Record some information in the global scope about where to find the\u000a  // "global" state object.\u000a  let glbl = window;\u000a  while (glbl.opener) { glbl = glbl.opener; }\u000a  window.top_window = glbl;\u000a\u000a  // Stash a reference to this window in the `remote` object.\u000a  window.remote = window.top_window.remote || {};\u000a  window.remote[window.name || "main"] = window;\u000a\u000a  // Match the behaviour of the built-in Wikifier variable matcher, except look\u000a  // for a g_ at the beginning of the variable name.\u000a  let global_var = "\u005c\u005c$g_((?:" +\u000a      Wikifier.textPrimitives.anyLetter.replace("\u005c\u005c-", "") +\u000a      ")*)" + Wikifier.textPrimitives.unquoted;\u000a\u000a  // We're going to need to monkey-patch the Wikifier.parse method, which\u000a  // handles transforming variables (like "$foo") into actual JS code.\u000a  let old_parser = Wikifier.parse;\u000a  Wikifier.parse = function(input) {\u000a    // This part is based on the source code for Wikifier.parse\u000a    // https://github.com/tweecode/twine/blob/f0e6caf4b3857cccdb4043313997dda36f55dd06/targets/engine.js#L1489-L1521\u000a\u000a    let output = input;\u000a\u000a    // Extract all variables & initialize them to 0 if they're undefined\u000a    let init_re = new RegExp(global_var, "gi");\u000a    let found = [];\u000a    let m;\u000a    while ((m = init_re.exec(input))) {\u000a      if (found.indexOf(m[0]) === -1) {\u000a        output = m[0] + " == null && (" + m[0] + " = 0);" + output;\u000a        found.push(m[0]);\u000a      }\u000a    }\u000a\u000a    // Rewrite $var into valid JS code\u000a    let pat = "top_window.state.history[0].variables.$1";\u000a    output = output.replace(new RegExp(global_var, "gi"), pat);\u000a\u000a    // And now we can call the version we're patching\u000a    return old_parser.call(this, output);\u000a  };\u000a})();\u000a
-p68
+p69
 sg23
 Vaaaaaa_InitGlobalVarState
-p69
+p70
 sg25
 g26
 ((I2017
@@ -196,15 +198,15 @@ I58
 I3
 I341
 I0
-tp70
-(dp71
-tp72
-Rp73
+tp71
+(dp72
+tp73
+Rp74
 sg31
-(lp74
+(lp75
 Vscript
-p75
-asg33
+p76
+asg34
 g26
 ((I2017
 I12
@@ -215,46 +217,48 @@ I19
 I2
 I340
 I0
-tp76
-(dp77
-tp78
-Rp79
-sbsa(dp80
+tp77
+(dp78
+tp79
+Rp80
+sbsa(dp81
 g14
 I00
 sg15
-(lp81
+(lp82
 F145.0
 aF12.0
 asg17
 (itiddlywiki
 Tiddler
-p82
-(dp83
+p83
+(dp84
 g21
 VReading $g_foo gets me <<print $g_foo>>.\u000a[[Start]]
-p84
+p85
 sg23
 VRead Global State
-p85
+p86
 sg25
 g26
 ((I2017
 I12
 I7
-I1
-I3
-I56
+I22
+I15
+I19
 I3
 I341
 I0
-tp86
-(dp87
-tp88
-Rp89
+tp87
+(dp88
+tp89
+Rp90
 sg31
-(lp90
-sg33
+(lp91
+Vmytemplate
+p92
+asg34
 g26
 ((I2017
 I12
@@ -265,46 +269,48 @@ I36
 I2
 I340
 I0
-tp91
-(dp92
 tp93
-Rp94
-sbsa(dp95
+(dp94
+tp95
+Rp96
+sbsa(dp97
 g14
 I00
 sg15
-(lp96
+(lp98
 F145.0
 aF153.0
 asg17
 (itiddlywiki
 Tiddler
-p97
-(dp98
+p99
+(dp100
 g21
 VWOOOO How did you get here?\u000a[[Start]]
-p99
+p101
 sg23
 VHidden Passage
-p100
+p102
 sg25
 g26
 ((I2017
 I12
 I7
-I1
-I33
-I55
+I22
+I15
+I25
 I3
 I341
 I0
-tp101
-(dp102
 tp103
-Rp104
+(dp104
+tp105
+Rp106
 sg31
-(lp105
-sg33
+(lp107
+Vmytemplate
+p108
+asg34
 g26
 ((I2017
 I12
@@ -315,14 +321,170 @@ I41
 I3
 I341
 I0
-tp106
-(dp107
-tp108
-Rp109
+tp109
+(dp110
+tp111
+Rp112
+sbsa(dp113
+g14
+I00
+sg15
+(lp114
+F143.0
+aF291.0
+asg17
+(itiddlywiki
+Tiddler
+p115
+(dp116
+g21
+V<div class="titlebar"><div class="logo"><span>N</span></div><button onclick="window.close()">x</button></div><<body>>
+p117
+sg23
+Vmytemplate
+p118
+sg25
+g26
+((I2017
+I12
+I7
+I22
+I23
+I38
+I3
+I341
+I0
+tp119
+(dp120
+tp121
+Rp122
+sg31
+(lp123
+Vtemplate
+p124
+asg34
+g26
+((I2017
+I12
+I7
+I17
+I3
+I56
+I3
+I341
+I0
+tp125
+(dp126
+tp127
+Rp128
+sbsa(dp129
+g14
+I00
+sg15
+(lp130
+F410.0
+aF13.0
+asg17
+(itiddlywiki
+Tiddler
+p131
+(dp132
+g21
+V// A small script for applying a template to tagged passages.\u000a// Re-writes passages at startup, replacing the <<body>> \u000a// macro in the template with the original passage.\u000a\u000alet templates = tale.lookup("tags", "template");\u000afor (let i = 0; i < templates.length; ++i) {\u000a  let template = templates[i];\u000a\u000a  let modify = tale.lookup("tags", template.title);\u000a  for (let j = 0; j < modify.length; ++j) {\u000a    let passage = modify[j];\u000a    passage.tags = \u000a      passage.tags.filter(tag => tag != template.title);\u000a    passage.text = template.text.replace("<<body>>", passage.text);\u000a  }\u000a}
+p133
+sg23
+VApplyTemplates
+p134
+sg25
+g26
+((I2017
+I12
+I7
+I22
+I17
+I19
+I3
+I341
+I0
+tp135
+(dp136
+tp137
+Rp138
+sg31
+(lp139
+Vscript
+p140
+asg34
+g26
+((I2017
+I12
+I7
+I17
+I8
+I43
+I3
+I341
+I0
+tp141
+(dp142
+tp143
+Rp144
+sbsa(dp145
+g14
+I00
+sg15
+(lp146
+I277
+aI145
+asg17
+(itiddlywiki
+Tiddler
+p147
+(dp148
+g21
+V/* Your story will use the CSS in this passage to style the page.\u000aGive this passage more tags, and it will only affect passages with those tags.\u000aExample selectors: */\u000a\u000a#sidebar {\u000a	display: none;\u000a}\u000a\u000a#passages {\u000a	position: fixed;\u000a	top: 50px;\u000a	left: 0px;\u000a	right: 0px;\u000a	bottom: 0px;\u000a	background-color: #000;\u000a    padding: 10px;\u000a    margin: 0px;\u000a	border-left: 1px solid;\u000a	border-right: 1px solid;\u000a	border-bottom: 1px solid;\u000a    border-bottom-right-radius: 10px;\u000a	border-bottom-left-radius: 10px;\u000a}\u000a\u000abody {\u000a	background: transparent;\u000a	margin: 0px;\u000a	padding: 0px;\u000a}\u000a\u000a.titlebar {\u000a    position: fixed;\u000a    top: 30px;\u000a	left: 0;\u000a	right: 0;\u000a	height: 20px;\u000a    background-color: #66f;\u000a    -webkit-app-region: drag;\u000a	-webkit-user-select: none;\u000a}\u000a.titlebar > a {\u000a	position: fixed;\u000aright: 0px;\u000atop: 30px;\u000awidth: 20px;\u000aheight: 20px;\u000aborder-radius: 10px;\u000abackground-color: #f00;\u000a/*-webkit-user-select: yes;*/\u000a\u000a}\u000a\u000a.logo {\u000a    position: fixed;\u000a	top: 0px;\u000a	left: 0px;\u000a	width: 60px;\u000a	height: 60px;\u000a	border-radius: 30px;\u000a	background-color: #f00;\u000a	display: table;\u000a	-webkit-app-region: drag;\u000a	-webkit-user-select: none;\u000a	font-size: 40px;\u000a	text-align: center;\u000a}\u000a\u000a.logo > span {\u000a	display: table-cell;\u000a	vertical-align: middle;\u000a	line-height: normal;\u000a}
+p149
+sg23
+VStyle
+p150
+sg25
+g26
+((I2017
+I12
+I7
+I22
+I21
+I56
+I3
+I341
+I0
+tp151
+(dp152
+tp153
+Rp154
+sg31
+(lp155
+Vstylesheet
+p156
+asg34
+g26
+((I2017
+I12
+I7
+I18
+I17
+I1
+I3
+I341
+I0
+tp157
+(dp158
+tp159
+Rp160
 sbsasS'scale'
-p110
+p161
 I1
 sS'snapping'
-p111
+p162
 I00
 ss.

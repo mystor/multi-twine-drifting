@@ -20,7 +20,9 @@ function createWindow (file) {
     height: 600,
     webPreferences: {
       nativeWindowOpen: true,
-    }
+    },
+    frame: false,
+    transparent: true,
   });
 
   // Load the first game's URL.
